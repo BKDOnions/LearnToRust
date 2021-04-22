@@ -9,7 +9,8 @@ pub fn show_data_types() {
     let mut mutable = "This Variable Is Changeable Due To The 'mut' keyword";
     println!("{}", not_mutable);
     println!("{}", mutable);
-
+    mutable = "It Can Be Muted Like This";
+    println!("{}", mutable);
     /*
     but you can still assign a variable twice, makes 'let' like a 'new' in java,
      */

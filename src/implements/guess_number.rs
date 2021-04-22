@@ -15,9 +15,9 @@ pub fn guess_num(){
         // match ok err type
         match input.trim().parse::<i32>() {
             Ok(..)=>{
-                let mut input:i32 = input.trim().parse::<i32>().unwrap();
+                let input:i32 = input.trim().parse::<i32>().unwrap();
                 if input == result {
-                    println!("Right");
+                    println!("bingo");
                     break;
                 } else if input < result {
                     println!("Try Bigger");
@@ -25,7 +25,7 @@ pub fn guess_num(){
                     println!("Try Smaller");
                 }
             }
-            Err(input)=>println!("Wrong input Type {}", input)
+            Err(input)=>println!("Wrong input Type: {}", input)
         }
         // expect() type
         // let mut int_input:i32 = input.trim().parse().expect("Please Input A Number");

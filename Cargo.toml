@@ -1,5 +1,5 @@
 [package]
-name = "LearnToRust"
+name = "learn_to_rust"
 version = "0.1.0"
 authors = ["BKDOnions <zqdbyct@gmail.com>"]
 edition = "2018"
