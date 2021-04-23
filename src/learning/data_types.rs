@@ -42,9 +42,9 @@ pub fn show_data_types() {
     let arr = [1, 2, 3, 4, 5];
     let arr: [i32; 5] = [1, 2, 3, 4, 5];
     let arr_index = arr[3];
-    
+
     // for-each iterate
-    for element in arr {
+    for element in arr.iter() {
         println!(" {} ", element);
     }
 
@@ -58,6 +58,6 @@ fn get_five() -> i32 {
     5
 }
 
-fn auto_increment(x: i32)->i32{
+fn auto_increment(x: i32) -> i32 {
     x + 1
 }
