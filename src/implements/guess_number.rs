@@ -12,9 +12,11 @@ pub fn guess_num(){
         let mut input = String::new();
         // Read from input
         io::stdin().read_line(&mut input).expect("Failed to readLine()");
+        println!("input w/o trim() = {}", input);
         // match ok err type
         match input.trim().parse::<i32>() {
             Ok(..)=>{
+                println!("input w/ trim() = {}", input.trim());
                 let input:i32 = input.trim().parse::<i32>().unwrap();
                 if input == result {
                     println!("bingo");
