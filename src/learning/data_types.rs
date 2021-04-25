@@ -1,3 +1,4 @@
+#[allow(unused)]
 pub fn show_data_types() {
     // primitive types
     const MAX_8BIT: i8 = i8::MAX;
@@ -19,29 +20,29 @@ pub fn show_data_types() {
     const MIN_ISIZE: isize = isize::MIN;
     const MAX_USIZE: usize = usize::MAX;
 
-    let decimal = 99_333;
-    let hex = 0xfff;
-    let octal = 0o777;
-    let binary = 0b101_010;
-    let byte = b'A'; // u8 only;
+    let _decimal = 99_333;
+    let _hex = 0xfff;
+    let _octal = 0o777;
+    let _binary = 0b101_010;
+    let _byte = b'A'; // u8 only;
 
-    let sum = 1 + 1;
-    let boolean = false;
+    let _sum = 1 + 1;
+    let _boolean = false;
     // let boolean: bool = true;
-    let character: char = '😻';
+    let _character: char = '😻';
 
     // tuple and array
     // tuple
     let tup: (i32, u32, char) = (-32, 32, '😻');
     let (x, y, z) = tup;
+    println!("x = {}, y = {}, z = {}", x, y, z);
     let tuple: (i32, u32, char) = (-32, 32, '😻');
     println!("tuple[2] = {}", tuple.2);
 
-
     // array
-    let arr = [1, 2, 3, 4, 5];
+    let _arr = [1, 2, 3, 4, 5];
     let arr: [i32; 5] = [1, 2, 3, 4, 5];
-    let arr_index = arr[3];
+    let _arr_index = arr[3];
 
     // for-each iterate
     for element in arr.iter() {
