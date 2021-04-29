@@ -14,7 +14,7 @@ pub fn show_mutability_details() {
     /*
     but you can still assign a variable twice, makes 'let' like a 'new' in java,
      */
-    let immutable = "But Still Have Way To Change The 'immutable''s Value";
+    let immutable = "But Still Have Ways To Change The 'immutable''s Value";
     println!("{}", immutable);
 
     /*
@@ -26,8 +26,8 @@ pub fn show_mutability_details() {
     shadowing
     and it's not allowed on constants;
      */
-    let not_mutable_int:i8 = 10;
+    let not_mutable_int: i8 = 10;
     println!("This Come From A Not Mutable Int: {}", not_mutable_int);
-    let not_mutable_int:i16 = (not_mutable_int + 10) as i16;
+    let not_mutable_int: i16 = (not_mutable_int + 10) as i16;
     println!("Yet It's 'Muted' By Using Shadowing: {}", not_mutable_int);
 }

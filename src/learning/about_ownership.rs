@@ -29,8 +29,11 @@ use std::ops::Index;
 
 pub fn detail_of_ownership() {
     let str = "hello";
-    println!("Declarations like \'let str = \"{}\";\' \n\
-    Cannot append by using String::push_str()", str);
+    println!(
+        "Declarations like \'let str = \"{}\";\' \n\
+    Cannot append by using String::push_str()",
+        str
+    );
     // Compiler knows the content at compile time, it compile is into a fix memory
     // String literal is fast by sacrificing mutability
     // str.push_str(",world"); // Exception by compile-time
@@ -42,14 +45,20 @@ pub fn detail_of_ownership() {
     let var_a = 5;
     let var_b = var_a;
     // These copies the value but only cost a few of memory by using stack;
-    println!("In fact they got different addresses: var_a: {:p}; var_b: {:p};", &var_a, &var_b);
+    println!(
+        "In fact they got different addresses: var_a: {:p}; var_b: {:p};",
+        &var_a, &var_b
+    );
 
     let str_a = String::from("hello");
     let heap_addr_of_str_a = str_a.as_ptr();
     print!("Address of str_a = {:p}, ", &str_a);
     let str_b = str_a;
     let heap_addr_of_str_b = str_b.as_ptr();
-    println!("and address of str_b = {:p}, they shouldn't be the same;", &str_b);
+    println!(
+        "and address of str_b = {:p}, they shouldn't be the same;",
+        &str_b
+    );
     println!("Both 'str_a' and 'str_b' have the same address on the heap like 'str_a' = {:p}, and 'str_b' = {:p}", heap_addr_of_str_a, heap_addr_of_str_b);
     // These should be like now:
     //      str_a == str_b
@@ -88,7 +97,6 @@ pub fn borrowing_and_referencing() {
     // println!("try use both of them: mut_borrow_once = {}, mut_borrow_twice = {};", borrow_once, borrow_twice); //----------- first borrow later used here
     // both 'borrow_once' and 'borrow_twice' wasn't out of lifecycle before println!()
 
-
     // similar problem happens like:
     let mut str = String::from("borrow a string"); // error[E0502]: cannot borrow `str` as mutable because it is also borrowed as immutable
     let borrow_once = &str; // ---- immutable borrow occurs here
@@ -96,17 +104,14 @@ pub fn borrowing_and_referencing() {
     // println!("try use all of them: borrow_once = {}, borrow_twice = {};", borrow_once, mut_borrow_twice); // ----------- immutable borrow later used here
 }
 
-
 fn this_transfers_ownership(str: String) {
     println!("Here 'str' from the original transfers its ownership to this scope, and drop() out of this scope;");
 }
-
 
 fn this_wont_transfers_ownership_by_passing_reference(str: &String) {
     // str.push_str("try modify the value"); // str: &mut String
     println!("But it still can't be changed due to the original mutability;");
 }
-
 
 fn this_wont_transfers_ownership_by_passing_reference_and_is_mutable(str: &mut String) {
     str.push_str(" is different now;");
