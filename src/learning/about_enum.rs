@@ -99,3 +99,16 @@ pub fn using_wildcard(var: i32) {
         _ => println!("{}:else", var),
     }
 }
+
+pub fn about_if_let() {
+    println!("{}", if_let_matching(Some(3)));
+    println!("{}", if_let_matching(None));
+}
+
+fn if_let_matching(var: Option<u8>) -> String {
+    if let Some(3) = var {
+        String::from("Number Matched!")
+    } else {
+        String::from("Number Not Matched")
+    }
+}

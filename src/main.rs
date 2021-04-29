@@ -1,14 +1,20 @@
-use crate::learning::about_enum::show_about_enums;
+use crate::implements::guess_number::guess_num;
+use crate::learning::about_enum::{about_if_let, show_about_enums};
+use crate::learning::about_ownership::{borrowing_and_referencing, detail_of_ownership};
+use crate::learning::about_struct::printing_traits;
+use crate::learning::data_types::show_data_types;
+use crate::learning::mutability_details::show_mutability_details;
 
 mod implements;
 mod learning;
 
 fn main() {
-    // implements::guess_number::guess_num();
-    // learning::mutability_details::show_mutability_details();
-    // learning::data_types::show_data_types();
-    // learning::about_ownership::detail_of_ownership();
-    // learning::about_ownership::borrowing_and_referencing();
-    // learning::about_struct::printing_traits();
-    show_about_enums();
+    // guess_num();
+    // show_mutability_details();
+    // show_data_types();
+    // detail_of_ownership();
+    // borrowing_and_referencing();
+    // printing_traits();
+    // show_about_enums();
+    // about_if_let();
 }
