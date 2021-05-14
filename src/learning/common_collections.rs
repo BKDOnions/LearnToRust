@@ -10,6 +10,9 @@
 //!    HashMap:
 //!
 
+use std::collections::HashMap;
+use std::ptr::null;
+
 pub fn details_of_collections() {
     // Vector
     // new() Vector w/o known type, Error: cannot infer type for type parameter `T` due to Vectors are implemented using generics;
@@ -38,11 +41,11 @@ pub fn details_of_collections() {
     print!("We can");
     vector = vec!["read", "vectors", "in", "a", "array", "way", "too"];
     for i in 0..10 {
-        if i == 7 { break }
+        if i == 7 { break; }
         print!(" {} ", vector[i]);
     }
 
-    vector = vec!["also", "do", "for-each"];
+    vector = vec!["also", "do", "for-each\n"];
     print!("\nWe can");
     for element in &vector {
         print!(" {} ", element);
@@ -76,4 +79,38 @@ pub fn details_of_collections() {
     string = "and it can access by using ".to_string() + &index[0..index.len()];
     string.clear();
     string = format!("We can format Strings {} {}", "like".to_string(), "this".to_string());
+
+    /// It's a danger way to access string by using index, for example :
+    /// ```
+    /// let hello = "Здравствуйте";
+    ///
+    /// let s = &hello[0..1];
+    /// ```
+    /// this panics because bytes stored in string have a length in 2, so slices like [0..1] is invalid.
+
+    // below is a valid way to access string by characters or bytes;
+    for i in string.chars() {
+        println!("By Chars element: {}", i);
+    }
+
+    /// HashMap
+    /// HashMap is only used for get()ting values by key, mapping values to keys implemented by using Hash function, it cannot be accessed by using indexes
+    /// Here are some examples
+    let mut team_scores = HashMap::new();
+    team_scores.insert(String::from("Yellow"), 50);
+    team_scores.insert(String::from("Blue"), 60);
+    /// another way to create a hashmap is to use a tuple vector's collect() function;
+    /// by using zip() to create a tuple mapping vector
+    let teams = vec!["Yellow", "Blue", "Black"];
+    let scores = vec![50, 60, 40];
+    let team_score: HashMap<_, _> = teams.iter().zip(scores.iter()).collect();
+
+
+    /// Updating existing keys
+    team_scores.insert("Yellow".to_string(), 90);
+
+    /// Insert only the key is not exist
+    team_scores.entry("Black".to_string()).or_insert(80);
+    team_scores.entry("Yellow".to_string()).or_insert(85);
+    println!("{:#?}", team_scores);
 }
