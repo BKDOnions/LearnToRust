@@ -41,7 +41,9 @@ pub fn details_of_collections() {
     print!("We can");
     vector = vec!["read", "vectors", "in", "a", "array", "way", "too"];
     for i in 0..10 {
-        if i == 7 { break; }
+        if i == 7 {
+            break;
+        }
         print!(" {} ", vector[i]);
     }
 
@@ -72,13 +74,19 @@ pub fn details_of_collections() {
     string.push('a');
     string.push('y');
     for i in 0..20 {
-        if i == string.len() { break; }
+        if i == string.len() {
+            break;
+        }
         string.pop();
     }
     let index = "index".to_string();
     string = "and it can access by using ".to_string() + &index[0..index.len()];
     string.clear();
-    string = format!("We can format Strings {} {}", "like".to_string(), "this".to_string());
+    string = format!(
+        "We can format Strings {} {}",
+        "like".to_string(),
+        "this".to_string()
+    );
 
     /// It's a danger way to access string by using index, for example :
     /// ```
@@ -87,7 +95,6 @@ pub fn details_of_collections() {
     /// let s = &hello[0..1];
     /// ```
     /// this panics because bytes stored in string have a length in 2, so slices like [0..1] is invalid.
-
     // below is a valid way to access string by characters or bytes;
     for i in string.chars() {
         println!("By Chars element: {}", i);
@@ -105,11 +112,10 @@ pub fn details_of_collections() {
     let scores = vec![50, 60, 40];
     let team_score: HashMap<_, _> = teams.iter().zip(scores.iter()).collect();
 
-
     /// Updating existing keys
     team_scores.insert("Yellow".to_string(), 90);
 
-    /// Insert only the key is not exist
+    /// Insert only if the key is not exist
     team_scores.entry("Black".to_string()).or_insert(80);
     team_scores.entry("Yellow".to_string()).or_insert(85);
     println!("{:#?}", team_scores);
