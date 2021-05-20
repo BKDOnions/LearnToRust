@@ -119,4 +119,10 @@ pub fn details_of_collections() {
     team_scores.entry("Black".to_string()).or_insert(80);
     team_scores.entry("Yellow".to_string()).or_insert(85);
     println!("{:#?}", team_scores);
+
+    // let team = vec!["Gold", "Grey", 10];
+    // let score = vec![10, 20, 30];
+    // let team_score_map = team.iter().zip(score.iter()).collect();
+    //
+    // println!("{:?}", team_score_map);
 }
