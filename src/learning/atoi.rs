@@ -25,11 +25,11 @@ pub fn my_atoi(s: String) -> i32 {
     let mut res: i64 = 0;
     while current_char <= '9' && current_char >= '0' {
         res = 10 * res + (current_char as u8 - b'0') as i64;
-        if res >= i32::MAX as i64 {
-            if sign == '-' {
-                return i32::MIN;
-            }
+        if res >= i32::MAX as i64 && sign != '-' {
             return i32::MAX;
+        }
+        if res >= 1 + (i32::MAX as i64) && sign == '-' {
+            return i32::MIN;
         }
         if current_pointer < s.len() {
             current_char = char::from(byte_array[current_pointer]);

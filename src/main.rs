@@ -22,5 +22,5 @@ fn main() {
     // about_if_let();
     // details_of_collections();
     // exception_handling_detail();
-    println!("{}", atoi::my_atoi("-91283472332".parse().unwrap()));
+    println!("{}", atoi::my_atoi("-2147483647".parse().unwrap()));
 }
