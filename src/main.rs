@@ -22,5 +22,5 @@ fn main() {
     // about_if_let();
     // details_of_collections();
     // exception_handling_detail();
-    println!("{}", atoi::my_atoi("4193 with words".parse().unwrap()));
+    println!("{}", atoi::my_atoi("-91283472332".parse().unwrap()));
 }
