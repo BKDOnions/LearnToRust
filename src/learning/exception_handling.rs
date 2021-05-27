@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::ErrorKind;
+use std::io::{Error, ErrorKind, Read};
 
 /// Almost all programming languages has exception handling, not if trashes
 ///```
@@ -40,5 +40,22 @@ pub fn exception_handling_detail() {
         }
     });
     // Recoverable Panic
-    // TODO shortcut panic: unwrap and expect
+    let file = File::open("shouldn't_found_this_file.txt").expect("Failed To Open The File shouldn't_found_this_file.txt");
+    let file = std::fs::remove_file("shouldn't_found_this_file.txt").unwrap();
+
+    println!("{:?}", read_filename_from_file());
+}
+
+// Err(Os { code: 2, kind: NotFound, message: "The system cannot find the file specified." })
+fn read_filename_from_file() -> Result<String, Error> {
+    let file = File::open("shouldn't_found_this_file.txt");
+    let mut file = match file {
+        Ok(file) => file,
+        Err(err_msg) => return Err(err_msg)
+    };
+    let mut s = String::new();
+    match file.read_to_string(&mut s) {
+        Ok(_) => Ok(s),
+        Err(err_msg) => Err(err_msg)
+    }
 }
