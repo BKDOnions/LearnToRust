@@ -7,7 +7,7 @@ pub fn my_atoi(s: String) -> i32 {
     let byte_array = s.as_bytes();
     let mut current_pointer = 0;
     let mut current_char: char;
-    while current_pointer <= s.len()
+    while current_pointer <= s.len() - 1
         && (byte_array[current_pointer] == b' '
             || byte_array[current_pointer] == b'\t'
             || byte_array[current_pointer] == b'\n'
