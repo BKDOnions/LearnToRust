@@ -48,7 +48,7 @@ use self::num_traits::Num;
 ///
 /// actually we can do like `fn largest<T>(list:&<T>)->T{}`
 ///
-struct Point<T> {
+struct Point<T: NumericPoint> {
     x: T,
     y: T,
 }
@@ -60,14 +60,10 @@ impl<T> Point<T> {
     pub fn get_y(&self) -> &T {
         &self.y
     }
-    // pub fn distance<T>(&self, &point: Point<T>) -> Point<T>{
-    //
-    // }
     pub fn from(x: T, y: T) -> Point<T> {
-        Point {
-            x,
-            y,
-        }
+        Point { x, y }
     }
 }
 
+todo!("https://stackoverflow.com/questions/59555044/how-to-define-different-implementations-for-an-associated-function-to-a-struct-t");
+todo!("https://doc.rust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types");
