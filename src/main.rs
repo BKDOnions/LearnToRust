@@ -6,8 +6,8 @@ use crate::{
     learning::common_collections::details_of_collections,
     learning::data_types::show_data_types,
     learning::exception_handling::exception_handling_detail,
+    learning::generic_programming::{NewsArticle, Summary, Tweet},
     learning::mutability_details::show_mutability_details,
-    // learning::generic_programming::largest
 };
 
 mod implements;
@@ -25,13 +25,18 @@ fn main() {
     // about_if_let();
     // details_of_collections();
     // exception_handling_detail();
-    let x = 32;
-    println!("{}", is_number(&x));
-}
-
-fn is_number<T>(var: &T) -> i32 {
-    match &var {
-        i32 => 21,
-        _ => 31
-    }
+    let tweet = Tweet {
+        username: "Rick".to_string(),
+        content: "Test This Tweet".to_string(),
+        reply: false,
+        retweet: false,
+    };
+    println!("1 new tweet: {}", tweet.summarize());
+    let news_article = NewsArticle {
+        headline: "Rick is God".to_string(),
+        location: "DGUT".to_string(),
+        author: "Rick".to_string(),
+        content: "Rick is beyond God".to_string(),
+    };
+    println!("New article available! {}", news_article.summarize());
 }

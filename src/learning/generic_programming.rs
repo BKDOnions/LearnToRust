@@ -1,9 +1,7 @@
-extern crate num_traits;
-
 use std::borrow::Borrow;
 use std::num;
 
-use self::num_traits::Num;
+use num_traits::real::Real;
 
 /// using generic programming in functions:
 ///
@@ -48,22 +46,36 @@ use self::num_traits::Num;
 ///
 /// actually we can do like `fn largest<T>(list:&<T>)->T{}`
 ///
-struct Point<T: NumericPoint> {
-    x: T,
-    y: T,
+
+
+// todo!("https://stackoverflow.com/questions/59555044/how-to-define-different-implementations-for-an-associated-function-to-a-struct-t");
+// todo!("https://doc.rust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types");
+pub trait Summary {
+    fn summarize(&self) -> String;
 }
 
-impl<T> Point<T> {
-    pub fn get_x(&self) -> &T {
-        &self.x
-    }
-    pub fn get_y(&self) -> &T {
-        &self.y
-    }
-    pub fn from(x: T, y: T) -> Point<T> {
-        Point { x, y }
+pub struct NewsArticle {
+    pub headline: String,
+    pub location: String,
+    pub author: String,
+    pub content: String,
+}
+
+impl Summary for NewsArticle {
+    fn summarize(&self) -> String {
+        format!("{}, by {} ({})", self.headline, self.author, self.content)
     }
 }
 
-todo!("https://stackoverflow.com/questions/59555044/how-to-define-different-implementations-for-an-associated-function-to-a-struct-t");
-todo!("https://doc.rust-lang.org/book/ch17-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types");
+pub struct Tweet {
+    pub username: String,
+    pub content: String,
+    pub reply: bool,
+    pub retweet: bool,
+}
+
+impl Summary for Tweet {
+    fn summarize(&self) -> String {
+        format!("{}: {}", self.username, self.content)
+    }
+}
