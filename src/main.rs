@@ -8,7 +8,9 @@ use crate::{
     learning::exception_handling::exception_handling_detail,
     learning::generic_programming::{NewsArticle, Summary, Tweet},
     learning::mutability_details::show_mutability_details,
+    learning::command_line_io
 };
+use crate::learning::command_line_io::get_args;
 
 mod implements;
 mod learning;
@@ -25,18 +27,5 @@ fn main() {
     // about_if_let();
     // details_of_collections();
     // exception_handling_detail();
-    let tweet = Tweet {
-        username: "Rick".to_string(),
-        content: "Test This Tweet".to_string(),
-        reply: false,
-        retweet: false,
-    };
-    println!("1 new tweet: {}", tweet.summarize());
-    let news_article = NewsArticle {
-        headline: "Rick is God".to_string(),
-        location: "DGUT".to_string(),
-        author: "Rick".to_string(),
-        content: "Rick is beyond God".to_string(),
-    };
-    println!("New article available! {}", news_article.summarize());
+    get_args();
 }

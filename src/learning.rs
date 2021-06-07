@@ -6,3 +6,4 @@ pub mod data_types;
 pub mod exception_handling;
 pub mod mutability_details;
 pub mod generic_programming;
+pub mod command_line_io;
