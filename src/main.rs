@@ -1,4 +1,4 @@
-use crate::learning::command_line_io::get_args;
+use crate::learning::command_line_io::{get_args, get_file_content};
 use crate::learning::generic_programming::fixed_comparison;
 use crate::{
     implements::guess_number::guess_num,
@@ -29,5 +29,6 @@ fn main() {
     // details_of_collections();
     // exception_handling_detail();
     // get_args();
-    fixed_comparison();
+    // fixed_comparison();
+    get_file_content();
 }
