@@ -1,14 +1,14 @@
-use crate::learning::command_line_io::{get_args, get_file_content};
-use crate::learning::generic_programming::fixed_comparison;
 use crate::{
     implements::guess_number::guess_num,
     learning::about_enum::{about_if_let, show_about_enums},
     learning::about_ownership::{borrowing_and_referencing, detail_of_ownership},
     learning::about_struct::printing_traits,
     learning::command_line_io,
+    learning::command_line_io::{get_args, get_file_content},
     learning::common_collections::details_of_collections,
     learning::data_types::show_data_types,
     learning::exception_handling::exception_handling_detail,
+    learning::generic_programming::fixed_comparison,
     learning::generic_programming::{NewsArticle, Summary, Tweet},
     learning::mutability_details::show_mutability_details,
 };

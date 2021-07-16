@@ -2,8 +2,6 @@ use std::borrow::Borrow;
 use std::fmt::Display;
 use std::num;
 
-use num_traits::real::Real;
-
 /// using generic programming in functions:
 ///
 /// ```rust
