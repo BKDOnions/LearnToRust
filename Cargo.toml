@@ -8,6 +8,7 @@ edition = "2018"
 
 [dependencies]
 rand = "0.5.5"
-num-traits = "0.2.14"
+#num-traits = "0.2.14"
+clap = "2.33.3"
 [profile.release]
 panic = 'abort'

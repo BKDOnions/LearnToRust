@@ -1,4 +1,3 @@
-use crate::algorithms::solution::Solution;
 use crate::{
     algorithms::insert_sort,
     implements::guess_number::guess_num,
