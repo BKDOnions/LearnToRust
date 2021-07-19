@@ -1,4 +1,6 @@
+use crate::algorithms::solution::Solution;
 use crate::{
+    algorithms::insert_sort,
     implements::guess_number::guess_num,
     learning::about_enum::{about_if_let, show_about_enums},
     learning::about_ownership::{borrowing_and_referencing, detail_of_ownership},
@@ -13,6 +15,7 @@ use crate::{
     learning::mutability_details::show_mutability_details,
 };
 
+mod algorithms;
 mod implements;
 mod learning;
 mod leet_code;
@@ -30,5 +33,5 @@ fn main() {
     // exception_handling_detail();
     // get_args();
     // fixed_comparison();
-    get_file_content();
+    // get_file_content();
 }
