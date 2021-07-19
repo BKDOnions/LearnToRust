@@ -8,10 +8,14 @@ use crate::{
     learning::common_collections::details_of_collections,
     learning::data_types::show_data_types,
     learning::exception_handling::exception_handling_detail,
-    learning::generic_programming::fixed_comparison,
     learning::generic_programming::{NewsArticle, Summary, Tweet},
+    learning::generic_programming::fixed_comparison,
     learning::mutability_details::show_mutability_details,
+    // learning::command_line_io
 };
+
+// use crate::learning::command_line_io::get_args;
+// use crate::learning::closures::generate_workout;
 
 mod implements;
 mod learning;
@@ -28,7 +32,7 @@ fn main() {
     // about_if_let();
     // details_of_collections();
     // exception_handling_detail();
-    // get_args();
+    get_args();
     // fixed_comparison();
-    get_file_content();
+    // get_file_content();
 }
