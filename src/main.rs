@@ -9,10 +9,13 @@ use crate::{
     learning::common_collections::details_of_collections,
     learning::data_types::show_data_types,
     learning::exception_handling::exception_handling_detail,
-    learning::generic_programming::fixed_comparison,
     learning::generic_programming::{NewsArticle, Summary, Tweet},
+    learning::generic_programming::fixed_comparison,
     learning::mutability_details::show_mutability_details,
+    leet_code::{atoi, no14, no48},
 };
+use crate::algorithms::solution::Solution;
+use crate::leet_code::no1095::MountainArray;
 
 mod algorithms;
 mod implements;
@@ -33,4 +36,12 @@ fn main() {
     // get_args();
     // fixed_comparison();
     // get_file_content();
+    let arr1 = vec![
+        1, 5, 2
+    ];
+    let mountainArray = MountainArray {
+        arr: arr1
+    };
+    println!("{}", Solution::find_in_mountain_array(3, &mountainArray));
+    // println!("{}", Solution::min_pair_sum(nums));
 }
