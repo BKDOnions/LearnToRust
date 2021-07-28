@@ -12,7 +12,7 @@ impl Solution {
                 let mut key = arr[j];
                 while j >= 1 && arr[j - 1] > key {
                     arr[j] = arr[j - 1];
-                    j = j - 1;
+                    j -= 1;
                 }
                 arr[j] = key;
             }
