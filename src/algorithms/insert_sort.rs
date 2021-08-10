@@ -4,7 +4,7 @@
 use crate::algorithms::solution::Solution;
 
 impl Solution {
-    pub fn insert_sort(arr: &mut Vec<i32>) {
+    pub fn insert_sorting(arr: &mut Vec<i32>) {
         if arr.len() <= 1 {
             return;
         } else {
