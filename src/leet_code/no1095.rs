@@ -32,9 +32,9 @@ impl Solution {
         let prior = mountainArray.get((start + end) / 2 - 1);
         let next = mountainArray.get((start + end) / 2 + 1);
         return if prior < mid && mid < next {
-            Solution::find_mountain_top(mountainArray, ((start + end) / 2), end)
+            Solution::find_mountain_top(mountainArray, (start + end) / 2, end)
         } else if prior > mid && mid > next {
-            Solution::find_mountain_top(mountainArray, start, ((start + end) / 2))
+            Solution::find_mountain_top(mountainArray, start, (start + end) / 2)
         } else {
             (start + end) / 2
         };

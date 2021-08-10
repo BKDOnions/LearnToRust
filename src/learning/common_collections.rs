@@ -11,7 +11,6 @@
 //!
 
 use std::collections::HashMap;
-use std::ptr::null;
 
 pub fn details_of_collections() {
     // Vector
@@ -110,7 +109,7 @@ pub fn details_of_collections() {
     /// by using zip() to create a tuple mapping vector
     let teams = vec!["Yellow", "Blue", "Black"];
     let scores = vec![50, 60, 40];
-    let team_score: HashMap<_, _> = teams.iter().zip(scores.iter()).collect();
+    let _team_score: HashMap<_, _> = teams.iter().zip(scores.iter()).collect();
 
     /// Updating existing keys
     team_scores.insert("Yellow".to_string(), 90);

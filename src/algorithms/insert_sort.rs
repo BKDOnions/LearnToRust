@@ -9,7 +9,7 @@ impl Solution {
             return;
         } else {
             for mut j in 1..arr.len() {
-                let mut key = arr[j];
+                let key = arr[j];
                 while j >= 1 && arr[j - 1] > key {
                     arr[j] = arr[j - 1];
                     j -= 1;

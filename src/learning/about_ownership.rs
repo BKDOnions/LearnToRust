@@ -25,7 +25,7 @@ Variable in RAM:
 
  */
 
-use std::ops::Index;
+
 
 pub fn detail_of_ownership() {
     let str = "hello";
@@ -92,23 +92,23 @@ pub fn borrowing_and_referencing() {
     // mutable reference has restrictions
     // variables can be borrowed once due to the thread safety
     let mut str = String::from("borrow a string"); // error[E0499]: cannot borrow `str` as mutable more than once at a time
-    let mut_borrow_once = &mut str; // -------- first mutable borrow occurs here
-    let mut_borrow_twice = &mut str; // second mutable borrow occurs here
+    let _mut_borrow_once = &mut str; // -------- first mutable borrow occurs here
+    let _mut_borrow_twice = &mut str; // second mutable borrow occurs here
     // println!("try use both of them: mut_borrow_once = {}, mut_borrow_twice = {};", borrow_once, borrow_twice); //----------- first borrow later used here
     // both 'borrow_once' and 'borrow_twice' wasn't out of lifecycle before println!()
 
     // similar problem happens like:
     let mut str = String::from("borrow a string"); // error[E0502]: cannot borrow `str` as mutable because it is also borrowed as immutable
-    let borrow_once = &str; // ---- immutable borrow occurs here
-    let mut_borrow_twice = &mut str; // mutable borrow occurs here
+    let _borrow_once = &str; // ---- immutable borrow occurs here
+    let _mut_borrow_twice = &mut str; // mutable borrow occurs here
     // println!("try use all of them: borrow_once = {}, borrow_twice = {};", borrow_once, mut_borrow_twice); // ----------- immutable borrow later used here
 }
 
-fn this_transfers_ownership(str: String) {
+fn this_transfers_ownership(_str: String) {
     println!("Here 'str' from the original transfers its ownership to this scope, and drop() out of this scope;");
 }
 
-fn this_wont_transfers_ownership_by_passing_reference(str: &String) {
+fn this_wont_transfers_ownership_by_passing_reference(_str: &String) {
     // str.push_str("try modify the value"); // str: &mut String
     println!("But it still can't be changed due to the original mutability;");
 }

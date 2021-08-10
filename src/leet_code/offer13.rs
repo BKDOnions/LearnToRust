@@ -1,5 +1,3 @@
-use std::collections::VecDeque;
-
 use crate::algorithms::solution::Solution;
 
 static mut COUNTER: i32 = 0;

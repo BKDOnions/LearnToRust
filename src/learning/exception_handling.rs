@@ -19,7 +19,7 @@ pub fn exception_handling_detail() {
     //         panic!("File Open onError: {}", err_msg)
     //     }
     // };
-    let file = match file {
+    let _file = match file {
         Ok(file) => file,
         Err(error) => match error.kind() {
             ErrorKind::NotFound => match File::create("shouldn't_found_this_file.txt") {
@@ -30,7 +30,7 @@ pub fn exception_handling_detail() {
         },
     };
     // Same by using closure
-    let f = File::open("shouldn't_found_this_file.txt").unwrap_or_else(|error| {
+    let _f = File::open("shouldn't_found_this_file.txt").unwrap_or_else(|error| {
         if error.kind() == ErrorKind::NotFound {
             File::create("shouldn't_found_this_file.txt").unwrap_or_else(|error| {
                 panic!("Problem creating the file: {:?}", error);
@@ -40,8 +40,8 @@ pub fn exception_handling_detail() {
         }
     });
     // Recoverable Panic
-    let file = File::open("shouldn't_found_this_file.txt").expect("Failed To Open The File shouldn't_found_this_file.txt");
-    let file = std::fs::remove_file("shouldn't_found_this_file.txt").unwrap();
+    let _file = File::open("shouldn't_found_this_file.txt").expect("Failed To Open The File shouldn't_found_this_file.txt");
+    let _file = std::fs::remove_file("shouldn't_found_this_file.txt").unwrap();
 
     println!("{:?}", read_filename_from_file());
 }

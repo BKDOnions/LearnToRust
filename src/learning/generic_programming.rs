@@ -1,6 +1,4 @@
-use std::borrow::Borrow;
 use std::fmt::Display;
-use std::num;
 
 /// using generic programming in functions:
 ///

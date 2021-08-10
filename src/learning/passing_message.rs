@@ -3,7 +3,6 @@
 //! ## mpsc
 //!
 use std::{sync::mpsc, thread};
-use std::fmt::Debug;
 use std::time::Duration;
 
 pub fn passing_message() {
