@@ -1,6 +1,6 @@
 use crate::algorithms::solution::Solution;
 
-impl Solution{
+impl Solution {
     pub fn longest_common_prefix(strs: Vec<String>) -> String {
         for (count, unicode) in strs[0].as_bytes().iter().enumerate() {
             for str in strs.iter() {

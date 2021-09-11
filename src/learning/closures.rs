@@ -88,10 +88,39 @@
 //! Follow up is the example using closure to reconstruct
 //!
 
-
-
 pub fn add_using_closure() {
-    let _add_one_v2 = |x: u32| -> u32 { x + 1 };
-    // let add_one_v3 = |x| x + 1;
-    // let add_one_v4 = |x| x + 1;
+    let add_one_v2 = |x: u32| -> u32 { x + 1 };
+    let add_one_v3 = |x: u32| x + 1;
+    let add_one_v4 = |x: u32| x + 1;
+}
+
+struct Catchier<T>
+where
+    T: Fn(u32) -> u32,
+{
+    calculation: T,
+    value: Option<u32>,
+}
+
+impl<T> Catchier<T>
+where
+    T: Fn(u32) -> u32,
+{
+    fn new(calculation: T) -> Catchier<T> {
+        Catchier {
+            calculation,
+            value: None,
+        }
+    }
+
+    fn value(&mut self, arg: u32) -> u32 {
+        match self.value {
+            Some(v) => v,
+            None => {
+                let v = (self.calculation)(arg);
+                self.value = Some(v);
+                v
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@ impl Solution {
         if side == 0 {
             return;
         }
-        for i in 0..side/2 + 1 {
+        for i in 0..side / 2 + 1 {
             for j in i..side - i {
                 let temp: i32 = matrix[i][j];
                 matrix[i][j] = matrix[side - j][i];
