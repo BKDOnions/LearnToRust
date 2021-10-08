@@ -6,6 +6,9 @@ mod learning;
 mod leet_code;
 
 fn main() {
-    let str = String::from(", , , ,        a, eaefa");
-    println!("{}", Solution::count_segments(str));
+    let s = "AAAAAAAAAAA";
+    println!(
+        "{:?}",
+        Solution::find_repeated_dna_sequences(String::from(s))
+    );
 }
