@@ -9,3 +9,4 @@ pub mod exception_handling;
 pub mod generic_programming;
 pub mod mutability_details;
 pub mod passing_message;
+pub mod pointers;
