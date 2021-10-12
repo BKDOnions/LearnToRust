@@ -2,8 +2,8 @@
 //!
 //! ## mpsc
 //!
-use std::{sync::mpsc, thread};
 use std::time::Duration;
+use std::{sync::mpsc, thread};
 
 pub fn passing_message() {
     // create channel: transmitter and receiver object
@@ -31,10 +31,25 @@ pub fn passing_message_with_sleep_durations() {
         ];
         for val in vals {
             tx.send(val).unwrap();
-            thread::sleep(Duration::from_secs(1));
+            thread::sleep(Duration::from_secs(3));
         }
     });
+    let spawned_time = std::time::SystemTime::now();
     for received in rx {
-        println!("Message received: \"{}\" at {:?}", received, std::time::SystemTime::now());
+        println!(
+            "Message received: \"{}\" at {:?} secs",
+            received,
+            spawned_time.elapsed().unwrap().as_secs()
+        );
+    }
+}
+
+#[cfg(test)]
+mod messaging {
+    use crate::learning::passing_message::passing_message_with_sleep_durations;
+
+    #[test]
+    fn messaging_test() {
+        passing_message_with_sleep_durations();
     }
 }
