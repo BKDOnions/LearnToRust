@@ -13,5 +13,6 @@ pub mod no412;
 pub mod no434;
 pub mod no48;
 pub mod no526;
+pub mod no852;
 pub mod offer12;
 pub mod offer13;
