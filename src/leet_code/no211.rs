@@ -3,6 +3,12 @@ use std::collections::{HashMap, HashSet};
 pub struct WordDictionary {
     dict: HashMap<usize, HashSet<String>>,
 }
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * let obj = WordDictionary::new();
+ * obj.add_word(word);
+ * let ret_2: bool = obj.search(word);
+ */
 
 /**
  * `&self` means the method takes an immutable reference.
@@ -52,9 +58,3 @@ impl WordDictionary {
         };
     }
 }
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * let obj = WordDictionary::new();
- * obj.add_word(word);
- * let ret_2: bool = obj.search(word);
- */
