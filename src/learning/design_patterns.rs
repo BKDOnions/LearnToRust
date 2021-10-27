@@ -37,6 +37,7 @@ mod abstract_factory {
 
     // Abstracted Furniture Factory
     pub trait FurnitureFactory {
+        // In traits, `type` is used to declare an associated type:
         type Chair: Chair;
         type CoffeeTable: CoffeeTable;
         type Sofa: Sofa;
@@ -218,13 +219,136 @@ mod abstract_factory {
     }
 }
 
-/// mod single
+/// ## Builder
+///
+/// > Builder is a creational design pattern that lets you construct complex objects step by step.
+/// The pattern allows you to produce different types and representations of an object using the same
+/// construction code.
+///
+/// ### Problem
+///
+/// Imagine there is an object that has multiple fields with way too much parameters to construct,
+/// or even worse: scattered all over the client code. Like the House below: way too many parts,
+/// but some of them are unnecessary
+///  
+/// ![Multiple Fields Object](https://refactoring.guru/images/patterns/diagrams/builder/problem2.png)
+///
+/// ### Solution
+/// The Builder pattern suggests that you **extract** the object construction code out of
+/// its own class and **move** it to separate objects called **builders**.
+///
+/// Some of the construction steps might require different implementation when you need to
+/// build various representations of the product. For example, walls of a cabin may be built of wood,
+/// but the castle walls must be built with stone.
+///
+/// ![Builder with Director](https://refactoring.guru/images/patterns/diagrams/builder/structure.png)
+///
+///
+mod builder {
+    pub trait HouseBuilder {
+        fn new() -> Self;
+        fn build_windows(&mut self, windows: u32, component: &str) -> &mut Self;
+        fn build_doors(&mut self, doors: u32, component: &str) -> &mut Self;
+        fn build_walls(&mut self, walls: u32, component: &str) -> &mut Self;
+        fn build(&mut self) -> &mut Self;
+    }
+
+    pub struct HotelRoom {
+        pub(self) windows: (u32, String),
+        pub(self) doors: (u32, String),
+        pub(self) walls: (u32, String),
+        pub(self) bathrooms: u32,
+    }
+
+    pub struct Cabin {
+        pub(self) windows: (u32, String),
+        pub(self) doors: (u32, String),
+        pub(self) walls: (u32, String),
+        pub(self) garden: bool,
+    }
+
+    impl HouseBuilder for HotelRoom {
+        fn new() -> Self {
+            Self {
+                windows: (0, "".to_string()),
+                doors: (0, "".to_string()),
+                walls: (0, "".to_string()),
+                bathrooms: 0,
+            }
+        }
+
+        fn build_windows(&mut self, windows: u32, component: &str) -> &mut Self {
+            self.windows = (windows, String::from(component));
+            self
+        }
+
+        fn build_doors(&mut self, doors: u32, component: &str) -> &mut Self {
+            self.doors = (doors, String::from(component));
+            self
+        }
+
+        fn build_walls(&mut self, walls: u32, component: &str) -> &mut Self {
+            self.walls = (walls, String::from(component));
+            self
+        }
+
+        fn build(&mut self) -> &mut Self {
+            self
+        }
+    }
+
+    impl HotelRoom {
+        fn build_bathrooms(&mut self, bathrooms: u32) -> &mut self {
+            self.bathrooms = bathrooms;
+            self
+        }
+    }
+
+    impl HouseBuilder for Cabin {
+        fn new() -> Self {
+            Self {
+                windows: (0, "".to_string()),
+                doors: (0, "".to_string()),
+                walls: (0, "".to_string()),
+                garden: false,
+            }
+        }
+
+        fn build_windows(&mut self, windows: u32, component: &str) -> &mut Self {
+            self.windows = (windows, String::from(component));
+            self
+        }
+
+        fn build_doors(&mut self, doors: u32, component: &str) -> &mut Self {
+            self.windows = (doors, String::from(component));
+            self
+        }
+
+        fn build_walls(&mut self, walls: u32, component: &str) -> &mut Self {
+            self.windows = (walls, String::from(component));
+            self
+        }
+
+        fn build(&mut self) -> &mut Self {
+            self
+        }
+    }
+
+    impl Cabin {
+        pub fn build_garden(&mut self, garden: bool) -> &mut self {
+            self.garden = garden;
+            self
+        }
+    }
+}
+
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
         Chair, CoffeeTable, FurnitureFactory, ModernChair, ModernFactory, ModernSofa, Sofa,
         VictorianCoffeeTable, VictorianFactory,
     };
+    use crate::learning::design_patterns::builder::{Cabin, HouseBuilder};
 
     #[test]
     fn abstract_factory_tests() {
@@ -236,5 +360,15 @@ mod design_patterns_tests {
         let victorian_factory: VictorianFactory = VictorianFactory;
         let victorian_coffee_table: VictorianCoffeeTable = victorian_factory.create_coffee_table();
         assert_eq!(victorian_coffee_table.has_coffees(), 4);
+    }
+
+    #[test]
+    fn builder_tests() {
+        let mut house: Cabin = Cabin;
+        house
+            .build_windows(4, "Glass")
+            .build_walls(4, "Whites")
+            .build_doors(4, "Wood")
+            .build_garden(true);
     }
 }
