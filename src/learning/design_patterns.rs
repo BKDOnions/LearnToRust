@@ -61,20 +61,22 @@ mod abstract_factory {
         coffees: u32,
     }
 
-    //
+    // Concrete Coffee Table variant 2
     pub struct ModernCoffeeTable {
         coffees: u32,
     }
 
+    // Concrete Sofa variant 1
     pub struct VictorianSofa {
         sits: u32,
     }
 
+    // Concrete Sofa variant 2
     pub struct ModernSofa {
         sits: u32,
     }
 
-    //
+    // VictorianChair implementation
     impl Chair for VictorianChair {
         fn has_legs(&self) -> bool {
             println!("VictorianChair has legs");
@@ -87,6 +89,7 @@ mod abstract_factory {
         }
     }
 
+    // Optional VictorianChair implementation
     impl VictorianChair {
         fn legs(&self) -> u32 {
             println!("VictorianChair has {} legs", self.legs);
@@ -94,6 +97,7 @@ mod abstract_factory {
         }
     }
 
+    // ModernChair implementation
     impl Chair for ModernChair {
         fn has_legs(&self) -> bool {
             println!("ModernChair has legs");
@@ -112,6 +116,7 @@ mod abstract_factory {
         }
     }
 
+    // Victorian Coffee Table implementation
     impl CoffeeTable for VictorianCoffeeTable {
         fn has_legs(&self) -> bool {
             println!("Victorian CoffeeTable has legs");
@@ -127,6 +132,7 @@ mod abstract_factory {
         }
     }
 
+    // Modern Coffee Table implementation
     impl CoffeeTable for ModernCoffeeTable {
         fn has_legs(&self) -> bool {
             println!("Modern CoffeeTable has legs");
@@ -139,6 +145,7 @@ mod abstract_factory {
         }
     }
 
+    // Victorian Sofa implementation
     impl Sofa for VictorianSofa {
         fn has_back(&self) -> bool {
             println!("Victorian Sofa has back");
@@ -151,6 +158,7 @@ mod abstract_factory {
         }
     }
 
+    // Modern Sofa implementation
     impl Sofa for ModernSofa {
         fn has_back(&self) -> bool {
             println!("Modern Sofa has back");
@@ -163,11 +171,13 @@ mod abstract_factory {
         }
     }
 
-    //
+    // Concrete Victorian Factory
     pub struct VictorianFactory;
 
+    // Concrete Modern Factory
     pub struct ModernFactory;
 
+    // Implementations
     impl FurnitureFactory for VictorianFactory {
         type Chair = VictorianChair;
         type CoffeeTable = VictorianCoffeeTable;
@@ -212,13 +222,19 @@ mod abstract_factory {
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
-        Chair, FurnitureFactory, ModernChair, ModernFactory,
+        Chair, CoffeeTable, FurnitureFactory, ModernChair, ModernFactory, ModernSofa, Sofa,
+        VictorianCoffeeTable, VictorianFactory,
     };
 
     #[test]
     fn abstract_factory_tests() {
-        let modern_factory = ModernFactory;
-        let chair: ModernChair = modern_factory.create_chair();
-        assert_eq!(chair.has_legs(), true);
+        let modern_factory: ModernFactory = ModernFactory;
+        let modern_chair: ModernChair = modern_factory.create_chair();
+        let modern_sofa: ModernSofa = modern_factory.create_sofa();
+        assert_eq!(modern_chair.has_legs(), true);
+        assert_eq!(modern_sofa.sits(), 6);
+        let victorian_factory: VictorianFactory = VictorianFactory;
+        let victorian_coffee_table: VictorianCoffeeTable = victorian_factory.create_coffee_table();
+        assert_eq!(victorian_coffee_table.has_coffees(), 4);
     }
 }
