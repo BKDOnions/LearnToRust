@@ -548,7 +548,6 @@ mod observer {
         fn update(&self, event_type: String, filename: String);
     }
 
-    #[derive(Debug)]
     pub struct EventManager<T: EventListener> {
         listeners: HashMap<String, HashSet<T>>,
     }
@@ -558,7 +557,6 @@ mod observer {
         filename: String,
     }
 
-    #[derive(Debug)]
     pub struct EmailNotificationListener {
         email: String,
     }
@@ -716,7 +714,6 @@ mod design_patterns_tests {
             "close",
             EmailNotificationListener::new("zqdbyct@gmail.com".to_string()),
         );
-        println!("{:?}", editor.event_manager);
         editor.open_file("test.txt".to_string());
         editor.close_file();
     }
