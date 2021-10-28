@@ -453,27 +453,32 @@ mod factory_method {
 ///
 
 mod adapter {
+    // Round Hole
     pub struct RoundHole {
-        radius: i32,
+        radius: f32,
     }
 
+    // Round Peg
     pub struct RoundPeg {
-        radius: i32,
+        radius: f32,
     }
 
+    // Square Peg
     pub struct SquarePeg {
-        width: i32,
+        width: f32,
     }
 
+    // Adapter
     pub struct SquarePegAdapter {
         peg: SquarePeg,
     }
 
+    // Round Hole Implementations: as it only fits which radius is less than its own radius
     impl RoundHole {
-        pub fn new(radius: i32) -> Self {
+        pub fn new(radius: f32) -> Self {
             RoundHole { radius }
         }
-        pub fn get_radius(&self) -> i32 {
+        pub fn get_radius(&self) -> f32 {
             self.radius
         }
         pub fn fit(&self, peg: RoundPeg) -> bool {
@@ -481,30 +486,32 @@ mod adapter {
         }
     }
 
+    //
     impl RoundPeg {
-        pub fn new(radius: i32) -> Self {
+        pub fn new(radius: f32) -> Self {
             RoundPeg { radius }
         }
-        pub fn get_radius(&self) -> i32 {
+        pub fn get_radius(&self) -> f32 {
             self.radius
         }
     }
 
     impl SquarePeg {
-        pub fn new(width: i32) -> Self {
+        pub fn new(width: f32) -> Self {
             SquarePeg { width }
         }
-        pub fn get_width(&self) -> i32 {
+        pub fn get_width(&self) -> f32 {
             self.width
         }
     }
 
+    // Get square peg radius
     impl SquarePegAdapter {
         pub fn new(peg: SquarePeg) -> Self {
             SquarePegAdapter { peg }
         }
         pub fn get_radius(&self) -> f32 {
-            self.peg.get_width() * 2.0.sqrt() / 2
+            self.peg.get_width() * 2_f32.sqrt() / 2_f32
         }
     }
 }
@@ -514,6 +521,9 @@ mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
         Chair, CoffeeTable, FurnitureFactory, ModernChair, ModernFactory, ModernSofa, Sofa,
         VictorianCoffeeTable, VictorianFactory,
+    };
+    use crate::learning::design_patterns::adapter::{
+        RoundHole, RoundPeg, SquarePeg, SquarePegAdapter,
     };
     use crate::learning::design_patterns::builder::{Cabin, HotelRoom, HouseBuilder};
     use crate::learning::design_patterns::factory_method::{RoadTrunk, SeaShip, Transport};
@@ -556,5 +566,12 @@ mod design_patterns_tests {
     }
 
     #[test]
-    fn adapter() {}
+    fn adapter() {
+        let square_peg = SquarePeg::new(4_f32);
+        let square_adapter = SquarePegAdapter::new(square_peg);
+        let round_peg = RoundPeg::new(square_adapter.get_radius());
+        let round_hole = RoundHole::new(4_f32);
+
+        assert_eq!(round_hole.fit(round_peg), true);
+    }
 }
