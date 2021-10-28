@@ -516,6 +516,73 @@ mod adapter {
     }
 }
 
+/// # Behavioral Patterns
+///
+/// ## Observer (Event Subscriber/Listener)
+///
+/// ### Intent
+///
+/// > **Observer** is a behavioral design pattern that lets you define a subscription mechanism
+/// to notify multiple objects about any events that happen to the object they’re observing.
+///
+/// ### Problem
+///
+/// Imagine you have a Store. In past, people will come to your Store to check product availability,
+/// if the product is still on their way, the trip will be pointless, nowadays, as technology
+/// developed, we can keep our customer well informed by sending emails, but the we can never know
+/// each customer's demand unless the customer tell us.
+///
+/// ### Solution
+/// Create a subscription list for each product, the manager notify the subscribers in the list
+/// when the product is available.
+///
+/// ### Structure
+/// ![Observer](https://refactoring.guru/images/patterns/diagrams/observer/structure-indexed.png)
+///
+
+mod observer {
+    use std::collections::HashMap;
+
+    pub trait EventListener {
+        fn update(event_type: String, filename: String);
+    }
+    pub struct EventManager {
+        listeners: HashMap<String, Vec<dyn EventListener>>,
+    }
+    pub struct Editor {
+        pub event_manager: EventManager,
+        filename: String,
+    }
+    pub struct EmailNotificationListener {
+        email: String,
+    }
+
+    impl EventManager {
+        pub fn new(operations: Vec<String>) -> &mut EventManager {
+            let mut event_manager = EventManager {
+                listeners: HashMap::new(),
+            };
+            for operation in operations.iter() {
+                event_manager
+                    .listeners
+                    .insert(String::from(operation), Vec::new());
+            }
+            &mut event_manager
+        }
+        pub fn subscribe(&self, event_type: String, listener: &dyn EventListener) {
+            self.listeners
+                .get(&event_type)
+                .expect("Event Type Not Found")
+                .push(listener);
+        }
+        pub fn unsubscribe(&self, event_type: String, listener: &dyn EventListener) {
+            self.listeners
+                .get(&event_type)
+                .expect("Event Type Not Found")
+        }
+    }
+}
+
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
