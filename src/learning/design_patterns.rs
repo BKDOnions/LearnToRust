@@ -245,6 +245,7 @@ mod abstract_factory {
 ///
 ///
 mod builder {
+    // HouseBuilder trait, it has similar steps to build a house.
     pub trait HouseBuilder {
         fn new() -> Self;
         fn build_windows(&mut self, windows: u32, component: &str) -> &mut Self;
@@ -253,6 +254,7 @@ mod builder {
         fn build(&mut self) -> &mut Self;
     }
 
+    // Concrete house 1 Hotel Room.
     pub struct HotelRoom {
         pub(self) windows: (u32, String),
         pub(self) doors: (u32, String),
@@ -260,6 +262,7 @@ mod builder {
         pub(self) bathrooms: u32,
     }
 
+    // Concrete house 2 Cabin
     pub struct Cabin {
         pub(self) windows: (u32, String),
         pub(self) doors: (u32, String),
@@ -267,8 +270,10 @@ mod builder {
         pub(self) garden: bool,
     }
 
+    // Implement HouseBuilder for Hotel Room, aka Hotel Room Builder
     impl HouseBuilder for HotelRoom {
         fn new() -> Self {
+            println!("new Hotel Room");
             Self {
                 windows: (0, "".to_string()),
                 doors: (0, "".to_string()),
@@ -278,16 +283,19 @@ mod builder {
         }
 
         fn build_windows(&mut self, windows: u32, component: &str) -> &mut Self {
+            println!("build windows");
             self.windows = (windows, String::from(component));
             self
         }
 
         fn build_doors(&mut self, doors: u32, component: &str) -> &mut Self {
+            println!("build doors");
             self.doors = (doors, String::from(component));
             self
         }
 
         fn build_walls(&mut self, walls: u32, component: &str) -> &mut Self {
+            println!("build walls");
             self.walls = (walls, String::from(component));
             self
         }
@@ -298,14 +306,17 @@ mod builder {
     }
 
     impl HotelRoom {
-        fn build_bathrooms(&mut self, bathrooms: u32) -> &mut self {
+        pub fn build_bathrooms(&mut self, bathrooms: u32) -> &mut Self {
+            println!("build bathroom");
             self.bathrooms = bathrooms;
             self
         }
     }
 
+    // Implement HouseBuilder for Cabin, aka Cabin Builder
     impl HouseBuilder for Cabin {
         fn new() -> Self {
+            println!("new Cabin");
             Self {
                 windows: (0, "".to_string()),
                 doors: (0, "".to_string()),
@@ -315,16 +326,19 @@ mod builder {
         }
 
         fn build_windows(&mut self, windows: u32, component: &str) -> &mut Self {
+            println!("build windows");
             self.windows = (windows, String::from(component));
             self
         }
 
         fn build_doors(&mut self, doors: u32, component: &str) -> &mut Self {
+            println!("build doors");
             self.windows = (doors, String::from(component));
             self
         }
 
         fn build_walls(&mut self, walls: u32, component: &str) -> &mut Self {
+            println!("build walls");
             self.windows = (walls, String::from(component));
             self
         }
@@ -335,7 +349,8 @@ mod builder {
     }
 
     impl Cabin {
-        pub fn build_garden(&mut self, garden: bool) -> &mut self {
+        pub fn build_garden(&mut self, garden: bool) -> &mut Self {
+            println!("build Cabin garden");
             self.garden = garden;
             self
         }
@@ -348,7 +363,7 @@ mod design_patterns_tests {
         Chair, CoffeeTable, FurnitureFactory, ModernChair, ModernFactory, ModernSofa, Sofa,
         VictorianCoffeeTable, VictorianFactory,
     };
-    use crate::learning::design_patterns::builder::{Cabin, HouseBuilder};
+    use crate::learning::design_patterns::builder::{Cabin, HotelRoom, HouseBuilder};
 
     #[test]
     fn abstract_factory_tests() {
@@ -364,11 +379,17 @@ mod design_patterns_tests {
 
     #[test]
     fn builder_tests() {
-        let mut house: Cabin = Cabin;
-        house
+        let mut cabin: Cabin = Cabin::new();
+        cabin
             .build_windows(4, "Glass")
             .build_walls(4, "Whites")
             .build_doors(4, "Wood")
             .build_garden(true);
+        let mut hotel_room: HotelRoom = HotelRoom::new();
+        hotel_room
+            .build_walls(8, "Whites")
+            .build_doors(3, "Steel")
+            .build_windows(4, "Glass")
+            .build_bathrooms(2);
     }
 }
