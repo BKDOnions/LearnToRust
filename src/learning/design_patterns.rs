@@ -424,6 +424,91 @@ mod factory_method {
     }
 }
 
+/// # Structural Patterns
+///
+/// ## Adapter (Wrapper)
+///
+/// ### Intent
+///
+/// **Adapter** is a design pattern that allows object with incompatible interfaces to collaborate
+///
+/// ### Problem
+/// Imagine that you’re creating a stock market monitoring app. You have solve most of
+/// the app logic problems, then you start coding but find out all the markets are using
+/// xml format to pass data to the FE.
+///
+/// ### Solution
+/// You can create an adapter. This is a special object that converts the interface of one object
+/// so that another object can understand it.
+///
+/// Adapters can not only convert data into various formats but can also help objects with
+/// different interfaces collaborate. Here’s how it works:
+///
+/// + The adapter gets an interface, compatible with one of the existing objects.
+/// + Using this interface, the existing object can safely call the adapter’s methods.
+/// + Upon receiving a call, the adapter passes the request to the second object,
+/// but in a format and order that the second object expects.
+///
+/// ![Object adapter](https://refactoring.guru/images/patterns/diagrams/adapter/structure-object-adapter.png)
+///
+
+mod adapter {
+    pub struct RoundHole {
+        radius: i32,
+    }
+
+    pub struct RoundPeg {
+        radius: i32,
+    }
+
+    pub struct SquarePeg {
+        width: i32,
+    }
+
+    pub struct SquarePegAdapter {
+        peg: SquarePeg,
+    }
+
+    impl RoundHole {
+        pub fn new(radius: i32) -> Self {
+            RoundHole { radius }
+        }
+        pub fn get_radius(&self) -> i32 {
+            self.radius
+        }
+        pub fn fit(&self, peg: RoundPeg) -> bool {
+            peg.radius <= self.radius
+        }
+    }
+
+    impl RoundPeg {
+        pub fn new(radius: i32) -> Self {
+            RoundPeg { radius }
+        }
+        pub fn get_radius(&self) -> i32 {
+            self.radius
+        }
+    }
+
+    impl SquarePeg {
+        pub fn new(width: i32) -> Self {
+            SquarePeg { width }
+        }
+        pub fn get_width(&self) -> i32 {
+            self.width
+        }
+    }
+
+    impl SquarePegAdapter {
+        pub fn new(peg: SquarePeg) -> Self {
+            SquarePegAdapter { peg }
+        }
+        pub fn get_radius(&self) -> f32 {
+            self.peg.get_width() * 2.0.sqrt() / 2
+        }
+    }
+}
+
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
@@ -469,4 +554,7 @@ mod design_patterns_tests {
         trunk.deliver();
         ship.deliver();
     }
+
+    #[test]
+    fn adapter() {}
 }
