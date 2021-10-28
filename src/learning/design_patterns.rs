@@ -516,6 +516,135 @@ mod adapter {
     }
 }
 
+/// # Behavioral Patterns
+///
+/// ## Observer (Event Subscriber/Listener)
+///
+/// ### Intent
+///
+/// > **Observer** is a behavioral design pattern that lets you define a subscription mechanism
+/// to notify multiple objects about any events that happen to the object they’re observing.
+///
+/// ### Problem
+///
+/// Imagine you have a Store. In past, people will come to your Store to check product availability,
+/// if the product is still on their way, the trip will be pointless, nowadays, as technology
+/// developed, we can keep our customer well informed by sending emails, but the we can never know
+/// each customer's demand unless the customer tell us.
+///
+/// ### Solution
+/// Create a subscription list for each product, the manager notify the subscribers in the list
+/// when the product is available.
+///
+/// ### Structure
+/// ![Observer](https://refactoring.guru/images/patterns/diagrams/observer/structure-indexed.png)
+///
+
+mod observer {
+    use std::collections::{HashMap, HashSet};
+    use std::hash::{Hash, Hasher};
+
+    pub trait EventListener {
+        fn update(&self, event_type: String, filename: String);
+    }
+
+    #[derive(Debug)]
+    pub struct EventManager<T: EventListener> {
+        listeners: HashMap<String, HashSet<T>>,
+    }
+
+    pub struct Editor<T: EventListener> {
+        pub event_manager: EventManager<T>,
+        filename: String,
+    }
+
+    #[derive(Debug)]
+    pub struct EmailNotificationListener {
+        email: String,
+    }
+
+    impl<T: EventListener + Hash + Eq> EventManager<T> {
+        pub fn new(operations: Vec<String>) -> EventManager<T> {
+            let mut event_manager = EventManager {
+                listeners: HashMap::new(),
+            };
+            for operation in operations.iter() {
+                event_manager
+                    .listeners
+                    .insert(String::from(operation), HashSet::new());
+            }
+            event_manager
+        }
+        pub fn subscribe(&mut self, event_type: &str, listener: T) {
+            self.listeners
+                .get_mut(event_type)
+                .expect("Event Type Not Found")
+                .insert(listener);
+        }
+        pub fn unsubscribe(&mut self, event_type: &str, listener: T) {
+            self.listeners
+                .get_mut(event_type)
+                .expect("Event Type Not Found")
+                .remove(&listener);
+        }
+        pub fn notify(&self, event_type: &str, filename: String) {
+            let users = self
+                .listeners
+                .get(event_type)
+                .expect("Event Type Not Found");
+            for user in users {
+                user.update(String::from(event_type), String::from(&filename));
+            }
+        }
+    }
+
+    impl EventListener for EmailNotificationListener {
+        fn update(&self, event_type: String, filename: String) {
+            println!(
+                "Email To {}: Someone has performed {} on {} ",
+                self.email, event_type, filename
+            );
+        }
+    }
+
+    impl EmailNotificationListener {
+        pub fn new(email: String) -> EmailNotificationListener {
+            EmailNotificationListener { email }
+        }
+    }
+
+    impl PartialEq<Self> for EmailNotificationListener {
+        fn eq(&self, other: &Self) -> bool {
+            self.email.eq(&other.email)
+        }
+    }
+
+    impl Eq for EmailNotificationListener {}
+
+    impl Hash for EmailNotificationListener {
+        fn hash<H: Hasher>(&self, state: &mut H) {
+            self.email.hash(state)
+        }
+    }
+
+    impl<T: EventListener + Eq + Hash> Editor<T> {
+        pub fn new() -> Editor<T> {
+            Editor {
+                event_manager: EventManager::new(vec![String::from("open"), String::from("close")]),
+                filename: "".to_string(),
+            }
+        }
+        pub fn open_file(&mut self, filename: String) {
+            self.filename = String::from(&filename);
+            self.event_manager.notify("open", String::from(&filename));
+        }
+        pub fn close_file(&self) {
+            self.event_manager
+                .notify("close", String::from(&self.filename));
+        }
+    }
+}
+
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
@@ -527,6 +656,7 @@ mod design_patterns_tests {
     };
     use crate::learning::design_patterns::builder::{Cabin, HotelRoom, HouseBuilder};
     use crate::learning::design_patterns::factory_method::{RoadTrunk, SeaShip, Transport};
+    use crate::learning::design_patterns::observer::{Editor, EmailNotificationListener};
 
     #[test]
     fn abstract_factory_tests() {
@@ -573,5 +703,21 @@ mod design_patterns_tests {
         let round_hole = RoundHole::new(4_f32);
 
         assert_eq!(round_hole.fit(round_peg), true);
+    }
+
+    #[test]
+    fn observer() {
+        let mut editor = Editor::new();
+        editor.event_manager.subscribe(
+            "open",
+            EmailNotificationListener::new("zqdbyct@gmail.com".to_string()),
+        );
+        editor.event_manager.subscribe(
+            "close",
+            EmailNotificationListener::new("zqdbyct@gmail.com".to_string()),
+        );
+        println!("{:?}", editor.event_manager);
+        editor.open_file("test.txt".to_string());
+        editor.close_file();
     }
 }
