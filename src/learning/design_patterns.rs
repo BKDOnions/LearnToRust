@@ -357,6 +357,73 @@ mod builder {
     }
 }
 
+/// ## Factory Method
+///
+/// > Factory Method is a creational design pattern that provides an interface for creating objects
+/// in a superclass, but allows subclasses to alter the type of objects that will be created.
+///
+/// ### Problem
+/// Imagine you have a company for transportation, and you want to start your business with
+/// road transporting, then as the business growing, you receive multiple other form of
+/// transportations orders, while your company only knows the road way mostly, and you don't
+/// have the money and mind to build another companies.
+///
+/// ### Solution
+/// The Factory Method pattern suggests that you replace direct object construction calls
+/// (using the new operator) with calls to a special factory method. Don’t worry: the objects
+/// are still created via the new operator, but it’s being called from within the factory method.
+/// Objects returned by a factory method are often referred to as products.
+/// ![Subclasses can alter the class of objects being returned by the factory method.](https://refactoring.guru/images/patterns/diagrams/factory-method/solution1.png)
+///
+///
+///
+
+mod factory_method {
+    pub trait Transport {
+        fn deliver(&self);
+    }
+
+    pub struct RoadTrunk {
+        payload: String,
+        boxes: u32,
+    }
+
+    pub struct SeaShip {
+        payload: String,
+        containers: u32,
+    }
+
+    impl Transport for RoadTrunk {
+        fn deliver(&self) {
+            println!("Delivering Payload with road transportations in boxes");
+        }
+    }
+
+    impl Transport for SeaShip {
+        fn deliver(&self) {
+            println!("Delivering payload with sea transportations in containers");
+        }
+    }
+
+    impl RoadTrunk {
+        pub fn new(payload: &str, boxes: u32) -> Self {
+            RoadTrunk {
+                payload: String::from(payload),
+                boxes,
+            }
+        }
+    }
+
+    impl SeaShip {
+        pub fn new(payload: &str, containers: u32) -> Self {
+            SeaShip {
+                payload: String::from(payload),
+                containers,
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
@@ -364,6 +431,7 @@ mod design_patterns_tests {
         VictorianCoffeeTable, VictorianFactory,
     };
     use crate::learning::design_patterns::builder::{Cabin, HotelRoom, HouseBuilder};
+    use crate::learning::design_patterns::factory_method::{RoadTrunk, SeaShip, Transport};
 
     #[test]
     fn abstract_factory_tests() {
@@ -391,5 +459,14 @@ mod design_patterns_tests {
             .build_doors(3, "Steel")
             .build_windows(4, "Glass")
             .build_bathrooms(2);
+    }
+
+    #[test]
+    fn factory_method() {
+        let trunk: RoadTrunk = RoadTrunk::new("Glass", 32);
+        let ship: SeaShip = SeaShip::new("Gas", 42);
+
+        trunk.deliver();
+        ship.deliver();
     }
 }
