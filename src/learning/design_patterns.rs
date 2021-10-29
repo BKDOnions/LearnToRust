@@ -544,23 +544,28 @@ mod observer {
     use std::collections::{HashMap, HashSet};
     use std::hash::{Hash, Hasher};
 
+    // Subscriber
     pub trait EventListener {
         fn update(&self, event_type: String, filename: String);
     }
 
+    // Publisher
     pub struct EventManager<T: EventListener> {
         listeners: HashMap<String, HashSet<T>>,
     }
 
+    // Concrete Publisher
     pub struct Editor<T: EventListener> {
         pub event_manager: EventManager<T>,
         filename: String,
     }
 
+    // Concrete Listener
     pub struct EmailNotificationListener {
         email: String,
     }
 
+    // Implement Publisher with Hash, Eq traits for HashSet
     impl<T: EventListener + Hash + Eq> EventManager<T> {
         pub fn new(operations: Vec<String>) -> EventManager<T> {
             let mut event_manager = EventManager {
@@ -596,6 +601,7 @@ mod observer {
         }
     }
 
+    // Implement Subscriber for concrete subscriber
     impl EventListener for EmailNotificationListener {
         fn update(&self, event_type: String, filename: String) {
             println!(
@@ -605,12 +611,14 @@ mod observer {
         }
     }
 
+    // Implement concrete subscriber
     impl EmailNotificationListener {
         pub fn new(email: String) -> EmailNotificationListener {
             EmailNotificationListener { email }
         }
     }
 
+    // Implement the supertrait of Eq for concrete subscriber
     impl PartialEq<Self> for EmailNotificationListener {
         fn eq(&self, other: &Self) -> bool {
             self.email.eq(&other.email)
@@ -619,12 +627,14 @@ mod observer {
 
     impl Eq for EmailNotificationListener {}
 
+    // Implement Hash for concrete subscriber
     impl Hash for EmailNotificationListener {
         fn hash<H: Hasher>(&self, state: &mut H) {
             self.email.hash(state)
         }
     }
 
+    // Implement concrete publisher
     impl<T: EventListener + Eq + Hash> Editor<T> {
         pub fn new() -> Editor<T> {
             Editor {
