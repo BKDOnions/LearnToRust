@@ -653,6 +653,78 @@ mod observer {
     }
 }
 
+/// ## Strategy Pattern
+///
+/// ### Intent
+///
+/// > **Strategy** is a behavioral design pattern that lets you define a family of algorithms,
+/// put each of them into a separate class, and make their objects interchangeable.
+///
+/// ### Problem
+///
+/// Imagine there is an app, it requires register and login.
+/// At first you have implemented phone number authentication. As the app grow, new users find it
+/// hard to register than other app: they all has multiple authentication methods: phone number,
+/// third party social account like google, facebook, twitter or any else that has concrete
+/// authentication method.
+///
+/// ### Solution
+///
+/// The Strategy pattern suggests that you take a class that does something specific in a lot of
+/// different ways and extract all of these algorithms into separate classes called strategies.
+///
+/// The original class, called context, must have a field for storing a reference to one of
+/// the strategies. The context delegates the work to a linked Strategy object instead of
+/// executing it on its own.
+///
+/// ![Structure](https://refactoring.guru/images/patterns/diagrams/strategy/structure.png)
+
+mod strategy {
+    pub trait Strategy {
+        fn execute(&self, a: i32, b: i32) -> i32;
+    }
+
+    pub struct ConcreteAdd;
+
+    pub struct ConcreteSubtract;
+
+    pub struct ConcreteMultiply;
+
+    pub struct Context<T: Strategy> {
+        strategy: T,
+    }
+
+    impl Strategy for ConcreteAdd {
+        fn execute(&self, a: i32, b: i32) -> i32 {
+            a + b
+        }
+    }
+
+    impl Strategy for ConcreteSubtract {
+        fn execute(&self, a: i32, b: i32) -> i32 {
+            a - b
+        }
+    }
+
+    impl Strategy for ConcreteMultiply {
+        fn execute(&self, a: i32, b: i32) -> i32 {
+            a * b
+        }
+    }
+
+    impl<T: Strategy> Context<T> {
+        pub fn new(strategy: T) -> Self<T> {
+            Strategy {}
+        }
+        pub fn set_strategy(&mut self, strategy: T) {
+            self.strategy = strategy;
+        }
+        pub fn execute_strategy(&self, a: i32, b: i32) -> i32 {
+            self.strategy.execute(a, b)
+        }
+    }
+}
+
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
@@ -665,6 +737,7 @@ mod design_patterns_tests {
     use crate::learning::design_patterns::builder::{Cabin, HotelRoom, HouseBuilder};
     use crate::learning::design_patterns::factory_method::{RoadTrunk, SeaShip, Transport};
     use crate::learning::design_patterns::observer::{Editor, EmailNotificationListener};
+    use crate::learning::design_patterns::strategy::{ConcreteAdd, Context};
 
     #[test]
     fn abstract_factory_tests() {
@@ -695,7 +768,7 @@ mod design_patterns_tests {
     }
 
     #[test]
-    fn factory_method() {
+    fn factory_method_tests() {
         let trunk: RoadTrunk = RoadTrunk::new("Glass", 32);
         let ship: SeaShip = SeaShip::new("Gas", 42);
 
@@ -704,7 +777,7 @@ mod design_patterns_tests {
     }
 
     #[test]
-    fn adapter() {
+    fn adapter_tests() {
         let square_peg = SquarePeg::new(4_f32);
         let square_adapter = SquarePegAdapter::new(square_peg);
         let round_peg = RoundPeg::new(square_adapter.get_radius());
@@ -714,7 +787,7 @@ mod design_patterns_tests {
     }
 
     #[test]
-    fn observer() {
+    fn observer_tests() {
         let mut editor = Editor::new();
         editor.event_manager.subscribe(
             "open",
@@ -727,4 +800,7 @@ mod design_patterns_tests {
         editor.open_file("test.txt".to_string());
         editor.close_file();
     }
+
+    #[test]
+    fn strategy_tests() {}
 }
