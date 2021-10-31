@@ -690,8 +690,8 @@ mod strategy {
 
     pub struct ConcreteMultiply;
 
-    pub struct Context<T: Strategy> {
-        strategy: T,
+    pub struct Context {
+        strategy: Box<dyn Strategy>,
     }
 
     impl Strategy for ConcreteAdd {
@@ -712,11 +712,11 @@ mod strategy {
         }
     }
 
-    impl<T: Strategy> Context<T> {
-        pub fn new(strategy: T) -> Self<T> {
-            Strategy {}
+    impl Context {
+        pub fn new(strategy: Box<dyn Strategy>) -> Self {
+            Context { strategy }
         }
-        pub fn set_strategy(&mut self, strategy: T) {
+        pub fn set_strategy(&mut self, strategy: Box<dyn Strategy>) {
             self.strategy = strategy;
         }
         pub fn execute_strategy(&self, a: i32, b: i32) -> i32 {
@@ -737,7 +737,9 @@ mod design_patterns_tests {
     use crate::learning::design_patterns::builder::{Cabin, HotelRoom, HouseBuilder};
     use crate::learning::design_patterns::factory_method::{RoadTrunk, SeaShip, Transport};
     use crate::learning::design_patterns::observer::{Editor, EmailNotificationListener};
-    use crate::learning::design_patterns::strategy::{ConcreteAdd, Context};
+    use crate::learning::design_patterns::strategy::{
+        ConcreteAdd, ConcreteMultiply, ConcreteSubtract, Context,
+    };
 
     #[test]
     fn abstract_factory_tests() {
@@ -802,5 +804,15 @@ mod design_patterns_tests {
     }
 
     #[test]
-    fn strategy_tests() {}
+    fn strategy_tests() {
+        let a = 10;
+        let b = 5;
+        // Changing context
+        let mut context = Context::new(Box::new(ConcreteAdd));
+        assert_eq!(context.execute_strategy(a, b), 15);
+        context.set_strategy(Box::new(ConcreteMultiply));
+        assert_eq!(context.execute_strategy(a, b), 50);
+        context.set_strategy(Box::new(ConcreteSubtract));
+        assert_eq!(context.execute_strategy(a, b), 5);
+    }
 }
