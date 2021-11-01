@@ -448,7 +448,7 @@ mod factory_method {
 ///
 
 mod singleton {
-    /// Useless in rust
+    // Useless in rust
 }
 
 /// # Structural Patterns
@@ -752,6 +752,112 @@ mod strategy {
     }
 }
 
+/// ## Template Method
+///
+/// ### Intent
+/// **Template Method** is a behavioral design pattern that defines the skeleton of an algorithm in
+/// the superclass but lets subclasses override specific steps of the algorithm without changing
+/// its structure.
+///
+/// ### Problem
+/// Imagine you are creating a data mining app that analyzes basic document file type,
+/// which takes document files in and outputs useful content.
+///
+/// The first version only supports few file types, and the following versions contains more
+/// file types.
+///
+/// One day you find out some of the steps to handle those document file types are duplicated,
+/// or has the same methods but different sequence. iIt would be great to extract the duplicated
+/// steps and make the structure intact
+///
+/// ### Solution
+/// The Template Method pattern suggests that you break down an algorithm into a series of steps,
+/// turn these steps into methods, and put a series of calls to these methods inside a single
+/// template method. The steps may either be abstract, or have some default implementation. To use
+/// the algorithm, the client is supposed to provide its own subclass, implement all abstract steps,
+/// and override some of the optional ones if needed (but not the template method itself).
+///
+/// At first, we can declare all steps abstract, forcing the subclasses to provide their own
+/// implementations for these methods. In our case, subclasses already have all necessary
+/// implementations, so the only thing we might need to do is adjust signatures of the methods
+/// to match the methods of the superclass.
+///
+/// As you can see, we’ve got two types of steps:
+/// + abstract steps must be implemented by every subclass
+/// + optional steps already have some default implementation, but still can be overridden if needed
+///
+/// There’s another type of step, called hooks. A hook is an optional step with an empty body.
+/// A template method would work even if a hook isn’t overridden. Usually, hooks are placed before
+/// and after crucial steps of algorithms, providing subclasses with additional extension points
+/// for an algorithm.
+///
+///
+
+mod template_method {
+    pub struct User {
+        username: String,
+        password: String,
+    }
+
+    impl User {
+        pub fn new(username: String, password: String) -> Self {
+            User { username, password }
+        }
+    }
+
+    pub trait SocialNetworks {
+        fn post(&self, content: String, user: &User) -> bool {
+            if self.login(user) {
+                let result = self.send_data(content);
+                self.logout(user);
+                return result;
+            }
+            return false;
+        }
+        fn send_data(&self, content: String) -> bool;
+        fn login(&self, user: &User) -> bool;
+        fn logout(&self, user: &User) -> bool;
+    }
+
+    pub struct Twitter;
+
+    pub struct Google;
+
+    impl SocialNetworks for Twitter {
+        fn send_data(&self, content: String) -> bool {
+            println!("Twitter posting Content: {}", content);
+            true
+        }
+
+        fn login(&self, user: &User) -> bool {
+            println!("Twitter login user {}", user.username);
+            true
+        }
+
+        fn logout(&self, user: &User) -> bool {
+            println!("Twitter logout user {}", user.username);
+            true
+        }
+    }
+
+    impl SocialNetworks for Google {
+        fn send_data(&self, content: String) -> bool {
+            println!("Google posting content: {}", content);
+            true
+        }
+
+        fn login(&self, user: &User) -> bool {
+            println!("Google login user {}", user.username);
+            true
+        }
+
+        fn logout(&self, user: &User) -> bool {
+            println!("Google logout user {}", user.username);
+            true
+        }
+    }
+}
+
 #[cfg(test)]
 mod design_patterns_tests {
     use crate::learning::design_patterns::abstract_factory::{
@@ -766,6 +872,9 @@ mod design_patterns_tests {
     use crate::learning::design_patterns::observer::{Editor, EmailNotificationListener};
     use crate::learning::design_patterns::strategy::{
         ConcreteAdd, ConcreteMultiply, ConcreteSubtract, Context,
+    };
+    use crate::learning::design_patterns::template_method::{
+        Google, SocialNetworks, Twitter, User,
     };
 
     #[test]
@@ -841,5 +950,23 @@ mod design_patterns_tests {
         assert_eq!(context.execute_strategy(a, b), 50);
         context.set_strategy(Box::new(ConcreteSubtract));
         assert_eq!(context.execute_strategy(a, b), 5);
+    }
+
+    #[test]
+    fn template_method_test() {
+        let user1: User = User::new("Rick".to_string(), "Astley".to_string());
+        let user2: User = User::new("Astley".to_string(), "Rick".to_string());
+
+        let twitter = Twitter;
+
+        let google = Google;
+
+        twitter.login(&user1);
+        twitter.post("Hello Twitter".to_string(), &user1);
+        twitter.logout(&user1);
+
+        google.login(&user2);
+        google.post("Hello Google".to_string(), &user2);
+        google.logout(&user2);
     }
 }
