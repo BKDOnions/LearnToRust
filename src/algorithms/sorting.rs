@@ -1,4 +1,4 @@
-use std::collections::VecDeque;
+use std::collections::vec_deque::VecDeque;
 
 use crate::algorithms::solution::Solution;
 
