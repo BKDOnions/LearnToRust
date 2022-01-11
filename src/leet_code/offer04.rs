@@ -10,23 +10,55 @@ impl Solution {
             return false;
         }
         let len = matrix.first().unwrap().len();
-        let mut x = 0usize;
-        let mut y = 0usize;
-        loop {
-            if x == matrix.len() - 1 && y == len - 1 {
-                return false;
+        let height = matrix.len();
+
+        let mut index = 0;
+
+        while if len > height {
+            index < height
+        } else {
+            index < len
+        } {
+            let mut low = index;
+            let mut high = height - 1;
+            while low <= high {
+                let mid = (low + high) >> 1;
+                if matrix[mid][index] < target {
+                    low = mid + 1;
+                } else if matrix[mid][index] > target {
+                    if mid > 0 {
+                        high = mid - 1;
+                    } else {
+                        break;
+                    }
+                } else if matrix[mid][index] == target {
+                    return true;
+                } else {
+                    break;
+                }
             }
-            if matrix[x][y] == target {
-                return true;
+            let mut left = index;
+            let mut right = len - 1;
+            while left <= right {
+                let mid = (left + right) >> 1;
+                if matrix[index][mid] < target {
+                    left = mid + 1;
+                } else if matrix[index][mid] > target {
+                    if mid > 0 {
+                        right = mid - 1;
+                    } else {
+                        break;
+                    }
+                } else if matrix[index][mid] == target {
+                    return true;
+                } else {
+                    break;
+                }
             }
-            if x < matrix.len() - 1 {
-                x += 1;
-            }
-            if (x == matrix.len() - 1 || matrix[x][y] > target) && y < len - 1 {
-                y += 1;
-                x = 0;
-            }
+            index += 1;
         }
+
+        return false;
     }
 }
 
@@ -36,9 +68,6 @@ mod offer04 {
 
     #[test]
     fn offer04_test() {
-        assert_eq!(
-            Solution::find_number_in2_d_array(vec![vec![-1, 3]], 3),
-            true
-        )
+        assert_eq!(Solution::find_number_in2_d_array(vec![vec![-5]], -10), true)
     }
 }
